@@ -1,12 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>survey</title>
-</head>
-<body>
-    <h1>a test page</h1>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>FriendFinder Survey</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>questions</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <form class="questions">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                aria-describedby="emailHelp"
+                placeholder="Full Name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="profile">Link to your Picture</label>
+              <input
+                type="url"
+                class="form-control"
+                id="profile"
+                placeholder="https://i.imgur.com/JLSQT37.jpg"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const questions = [
+      "Enjoys hanging out in large groups",
+      "Enjoys reading books and staying at home",
+      "Playing videogames all day long",
+      "Going out often to eat great food",
+      "Being alone is perfectly fine",
+      "Has trouble saving money",
+      "Always panicking under stress",
+      "Will eat anything",
+      "Has an expensive hobby",
+      "Loves Animals",
+    ];
+    const createQuestions = (question, index) => {
+      console.log(question, index);
+      const $formGroup = $("<div>").addClass("form-group");
+      const $title = $("<h4>").text(`Question ${index + 1}`);
+      const $select = $("<select>").attr({
+        id: "question" + index,
+        class: "form-control"
+      });
+      const $label = $("<label>")
+        .attr("for", "question" + index)
+        .text(question);
+      for (let i = 1; i <= 5; i++) {
+        const $option = $("<option>");
+        if (i === 1) {
+          $option.text(i + " (strongly disagree)");
+        } else if (i === 5) {
+          $option.text(i + " (strongly agree)");
+        } else {
+          $option.text(i);
+        }
+        $option.val(i);
+        $select.append($option);
+      }
+      $formGroup.append($title, $label, $select);
+      $(".questions").append($formGroup);
+    };
+
+    const loadQuestions = () => {
+      questions.forEach((quest, index) => {
+        console.log(quest, index);
+        createQuestions(quest, index);
+      });
+
+    };
+    loadQuestions();
+  </script>
 </html>
