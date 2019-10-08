@@ -72,6 +72,30 @@
         </div>
       </div>
     </div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="matchModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="matchModalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <span class="display-4" id="matchName">Name</span>
+          </br>
+            <img
+              id="matchPic"
+              src=""
+              alt=""
+              style="max-height:400px; max-width: 400px; height: auto; width: auto"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
   <script>
     const questions = [
@@ -87,7 +111,6 @@
       "Loves Animals"
     ];
     const createQuestions = (question, index) => {
-      console.log(question, index);
       const $formGroup = $("<div>").addClass("form-group");
       const $title = $("<h4>").text(`Question ${index + 1}`);
       const $select = $("<select>").attr({
@@ -123,7 +146,6 @@
 
     const loadQuestions = () => {
       questions.forEach((quest, index) => {
-        console.log(quest, index);
         createQuestions(quest, index);
       });
     };
@@ -137,12 +159,15 @@
       const validateForm = function() {
         var isValid = true;
         $(".form-control").each(function() {
+          console.log($(this))
           if ($(this).val() === "") {
+            // console.log(this)
             isValid = false;
           }
         });
         return isValid;
       };
+      console.log(validateForm())
       if (validateForm()) {
         const score = [];
         for (let i = 0; i < 10; i++) {
@@ -161,18 +186,23 @@
         };
         var currentURL = window.location.origin;
         $.post(currentURL + "/api/friends", userData, function(data) {
-          //display match
+          console.log("hello")
+          $("#matchName").text(data.name);
+          $("#matchPic").attr("src", data.url);
+          $("#matchModal").modal("toggle");
+
+          $("#name").val("");
+          $("#profile").val("");
+          for (let i = 0; i < 10; i++) {
+            $(`#question${i}`).val("");
+          }
         });
       } else {
+        console.log("world")
         $("#submit").attr(
           "data-content",
           "Please make sure all fields are completely filled out."
         );
-      }
-      $("#name").val("");
-      $("#profile").val("");
-      for (let i = 0; i < 10; i++) {
-        $(`#question${i}`).val("");
       }
     });
 
