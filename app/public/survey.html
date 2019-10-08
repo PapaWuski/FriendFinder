@@ -83,15 +83,30 @@
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-center" id="matchModalTitle">
+              Best Match Found!
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
           <div class="modal-body">
             <span class="display-4" id="matchName">Name</span>
-          </br>
             <img
               id="matchPic"
               src=""
               alt=""
               style="max-height:400px; max-width: 400px; height: auto; width: auto"
             />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -141,7 +156,7 @@
         $select.append($option);
       }
       $formGroup.append($title, $label, $select);
-      $("button").before($formGroup);
+      $("#submit").before($formGroup);
     };
 
     const loadQuestions = () => {
@@ -159,15 +174,12 @@
       const validateForm = function() {
         var isValid = true;
         $(".form-control").each(function() {
-          // console.log($(this))
           if ($(this).val() === "") {
-            // console.log(this)
             isValid = false;
           }
         });
         return isValid;
       };
-      // console.log(validateForm())
       if (validateForm()) {
         const score = [];
         for (let i = 0; i < 10; i++) {
@@ -186,11 +198,9 @@
         };
         var currentURL = window.location.origin;
         $.post(currentURL + "/api/friends", userData, function(data) {
-          // console.log("hello")
-          $("#matchName").text(`Best Friend: ${data.name}`);
+          $("#matchName").text(data.name);
           $("#matchPic").attr("src", data.url);
           $("#matchModal").modal("toggle");
-
           $("#name").val("");
           $("#profile").val("");
           for (let i = 0; i < 10; i++) {
@@ -198,7 +208,6 @@
           }
         });
       } else {
-        // console.log("world")
         $("#submit").attr(
           "data-content",
           "Please make sure all fields are completely filled out."
