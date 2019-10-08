@@ -31,7 +31,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h1>questions</h1>
+          <h1>What do you prefer in a Friend?</h1>
         </div>
       </div>
       <div class="row">
@@ -159,7 +159,7 @@
       const validateForm = function() {
         var isValid = true;
         $(".form-control").each(function() {
-          console.log($(this))
+          // console.log($(this))
           if ($(this).val() === "") {
             // console.log(this)
             isValid = false;
@@ -167,7 +167,7 @@
         });
         return isValid;
       };
-      console.log(validateForm())
+      // console.log(validateForm())
       if (validateForm()) {
         const score = [];
         for (let i = 0; i < 10; i++) {
@@ -186,8 +186,8 @@
         };
         var currentURL = window.location.origin;
         $.post(currentURL + "/api/friends", userData, function(data) {
-          console.log("hello")
-          $("#matchName").text(data.name);
+          // console.log("hello")
+          $("#matchName").text(`Best Friend: ${data.name}`);
           $("#matchPic").attr("src", data.url);
           $("#matchModal").modal("toggle");
 
@@ -198,7 +198,7 @@
           }
         });
       } else {
-        console.log("world")
+        // console.log("world")
         $("#submit").attr(
           "data-content",
           "Please make sure all fields are completely filled out."
