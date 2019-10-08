@@ -56,6 +56,18 @@
                 placeholder="https://i.imgur.com/JLSQT37.jpg"
               />
             </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary"
+              id="submit"
+              data-container="body"
+              data-toggle="popover"
+              data-placement="right"
+              data-content=""
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>
@@ -72,7 +84,7 @@
       "Always panicking under stress",
       "Will eat anything",
       "Has an expensive hobby",
-      "Loves Animals",
+      "Loves Animals"
     ];
     const createQuestions = (question, index) => {
       console.log(question, index);
@@ -85,6 +97,14 @@
       const $label = $("<label>")
         .attr("for", "question" + index)
         .text(question);
+      const $defaultVal = $("<option>")
+        .attr({
+          value: "",
+          selected: "",
+          hidden: ""
+        })
+        .text("Please Select");
+      $select.append($defaultVal);
       for (let i = 1; i <= 5; i++) {
         const $option = $("<option>");
         if (i === 1) {
@@ -98,7 +118,7 @@
         $select.append($option);
       }
       $formGroup.append($title, $label, $select);
-      $(".questions").append($formGroup);
+      $("button").before($formGroup);
     };
 
     const loadQuestions = () => {
@@ -106,8 +126,56 @@
         console.log(quest, index);
         createQuestions(quest, index);
       });
-
     };
+
+    $(function() {
+      $('[data-toggle="popover"]').popover();
+    });
+
+    $("#submit").on("click", function(event) {
+      event.preventDefault();
+      const validateForm = function() {
+        var isValid = true;
+        $(".form-control").each(function() {
+          if ($(this).val() === "") {
+            isValid = false;
+          }
+        });
+        return isValid;
+      };
+      if (validateForm()) {
+        const score = [];
+        for (let i = 0; i < 10; i++) {
+          score.push(parseInt($(`#question${i}`).val()));
+        }
+
+        $("#submit").attr("data-content", "");
+        const userData = {
+          name: $("#name")
+            .val()
+            .trim(),
+          url: $("#profile")
+            .val()
+            .trim(),
+          score
+        };
+        var currentURL = window.location.origin;
+        $.post(currentURL + "/api/friends", userData, function(data) {
+          //display match
+        });
+      } else {
+        $("#submit").attr(
+          "data-content",
+          "Please make sure all fields are completely filled out."
+        );
+      }
+      $("#name").val("");
+      $("#profile").val("");
+      for (let i = 0; i < 10; i++) {
+        $(`#question${i}`).val("");
+      }
+    });
+
     loadQuestions();
   </script>
 </html>
