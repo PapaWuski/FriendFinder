@@ -14,7 +14,7 @@ app.use(routes)
 
 // Handle 404
 app.use(function(req, res) {
-    res.status(404).send('404: Page not Found')
+    res.status(404).sendFile(path.join(__dirname, "app/public/404.html"))
   });
 
 app.listen(PORT, () => {
